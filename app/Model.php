@@ -38,17 +38,37 @@ class Model{
 		$data=json_decode($data);
 		// добавляем элемент
 		array_push($data, $item);
-		// сохраняем файл, и возврfщаем результат сохранения (успех или провал)
+		// сохраняем файл, и возвращаем результат сохранения (успех или провал)
 		return file_put_contents($this->dataFileName, json_encode($data));
 	}
 
 
-	public function save($id){
-		echo 'напишите реализацию метода'; die();
+	public function save($dataToEdit){
+        // PUT  http://localhost/?controller=example&id=2 {'title'='новый текст записи'}
+        // $dataToEdit = array(id => 2, title =>'новый текст записи')
+		// считываем нашу "базу данных"
+		$data=file_get_contents($this->dataFileName);
+		// декодируем
+		$data=json_decode($data);
+        // изменяем элемент
+		if(array_key_exists($dataToEdit['id'], $data)) {
+            $data[$dataToEdit['id']] = array('title' => $dataToEdit['title']);
+        }
+        // сохраняем файл, и возвращаем результат сохранения (успех или провал)
+        return file_put_contents($this->dataFileName, json_encode($data));
 	}
 
 
 	public function delete($id){
-		echo 'напишите реализацию метода'; die();	
+        // считываем нашу "базу данных"
+        $data=file_get_contents($this->dataFileName);
+        // декодируем
+        $data=json_decode($data);
+        // изменяем элемент
+        if(array_key_exists($id, $data)) {
+            unset($data[$id]);
+        }
+        // сохраняем файл, и возвращаем результат сохранения (успех или провал)
+        return file_put_contents($this->dataFileName, json_encode($data));
 	}
 }
