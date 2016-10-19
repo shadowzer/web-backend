@@ -59,15 +59,15 @@ class App{
 		/* 	создаем экземпляр контроллера
 		 *	передаем в него название модели
 		 */
-		$controllerInstanse = new $controllerName($modelName);
+		$controllerInstance = new $controllerName($modelName);
 		// копируем название действия в переменную
 		$action=$this->action;
 		// если метод существует - выполняем его, если не существует, возвращяем ошибку
-		if(method_exists($controllerInstanse, $action)){
+		if(method_exists($controllerInstance, $action)){
 			// выполняем действие в контроллере
-			$controllerInstanse->$action($this->request);
+			$controllerInstance->$action($this->request);
 			// получаем результат
-			$this->responce=$controllerInstanse->getResponce();
+			$this->responce=$controllerInstance->getResponce();
 		}else{
 			$this->responce=false;
 		}
