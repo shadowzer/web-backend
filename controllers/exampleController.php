@@ -30,9 +30,11 @@ class exampleController extends Controller {
 			// мы передаем в модель массив с данными
 			// модель должна вернуть boolean
             parse_str(file_get_contents("php://input"),$post_vars);
-			$dataToEdit=array('id' => $id['id'], 'title' => $post_vars['title']);
-			$editedItem=$this->model->save($dataToEdit);
-			$this->setResponce($editedItem);
+			if (isset($post_vars['title'])) {
+				$dataToEdit = array('id' => $id['id'], 'title' => $post_vars['title']);
+				$editedItem = $this->model->save($dataToEdit);
+				$this->setResponce($editedItem);
+			}
 		}
 	}	
 
