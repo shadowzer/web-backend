@@ -1,6 +1,6 @@
 <?php
 
-class userController extends Controller {
+class pokemonController extends Controller {
 
 	public function index(){
 		$examples=$this->model->load();		// просим у модели все записи
@@ -13,10 +13,10 @@ class userController extends Controller {
 	}
 
 	public function add(){
-		if(isset($_POST['name']) && isset($_POST['score'])){
+		if(isset($_POST['name']) && isset($_POST['image']) && isset($_POST['HP'])){
 			// мы передаем в модель массив с данными
 			// модель должна вернуть boolean
-			$dataToSave=array('name' => $_POST['name'], 'score' => $_POST['score']);
+			$dataToSave=array('name' => $_POST['name'], 'image' => $_POST['image'], 'HP' => $_POST['HP']);
 			$addedItem=$this->model->create($dataToSave);
 			$this->setResponce($addedItem);
 		}
@@ -29,8 +29,8 @@ class userController extends Controller {
 			// мы передаем в модель массив с данными
 			// модель должна вернуть boolean
             parse_str(file_get_contents("php://input"),$post_vars);
-			if (isset($post_vars['name']) && isset($post_vars['score'])) {
-				$dataToEdit = array('id' => $id['id'], 'name' => $post_vars['name'], 'score' => $post_vars['score']);
+			if(isset($_POST['name']) && isset($_POST['image']) && isset($_POST['HP'])) {
+				$dataToEdit = array('id' => $id['id'], 'name' => $post_vars['name'], 'image' => $post_vars['image'], 'HP' => $post_vars['HP']);
 				$editedItem = $this->model->save($dataToEdit);
 				$this->setResponce($editedItem);
 			}
