@@ -3,16 +3,17 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 // функция автозагрузки классов
-spl_autoload_register(function ($class_name) {
+function autoloader($class_name) {
 	// загружать классы из папок app, controllers, models
 	foreach ( array('./app/', './controllers/','./models/') as $k=>$v) {
 		$fname=$v.$class_name.'.php';
 		if(file_exists($fname)){
 			include ($fname);
-			break;	
-		} 
+			break;
+		}
 	}
-});
+}
+spl_autoload_register('autoloader');
 
 // определяем константы
 define('BASE_DIR', dirname(__FILE__));
