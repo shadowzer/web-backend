@@ -1,6 +1,6 @@
 <?php
 
-class exampleModel extends Model {
+class menuModel extends Model {
 
 	// если нам нужны стандартные методы то тут ничего больше и писать то не нужно
     // оно само все закувыркается
