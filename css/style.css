@@ -1,0 +1,68 @@
+.gameName {
+	padding-top: 1%;
+	padding-left: 33%;
+	font-size: 70px;
+	color: floralwhite;
+	font-stretch: ultra-expanded;
+}
+
+.image {
+	padding-left: 20%;
+}
+
+.space {
+	padding-left: 100px;
+}
+
+.links {
+	padding-top: 30px;
+}
+
+.menuItem {
+	padding-left: 100px;
+	font-size: 35px;
+	color: floralwhite;
+	display: inline-block;
+}
+
+.menuItem_active {
+	padding-left: 100px;
+	font-size: 35px;
+	color: #ff0606;
+	display: inline-block;
+}
+
+.text-about {
+	font-size: 30px;
+	color: floralwhite;
+}
+
+.ol-toplist {
+	padding-left: 5%;
+	font-size: 50px;
+	color: floralwhite;
+	background-image: none;
+}
+
+.text-toplist {
+	font-size: 100px;
+	color: floralwhite;
+}
+
+.button-start-padding {
+	padding-left: 46%;
+	padding-top: 10%;
+}
+
+.button-start {
+	font-size: 30px;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+}
+
+.span {
+	padding-left: 300px;
+	display: inline-block;
+}
