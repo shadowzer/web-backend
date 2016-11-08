@@ -21,7 +21,7 @@ app.config(function($routeProvider) {
                 $scope.users = response;
             })
     })
-    .factory('gameService', function() {
+    .factory('scoreService', function() {
         var score = 0;
         function setScore(scoreVal) {
             score = scoreVal;
@@ -30,9 +30,9 @@ app.config(function($routeProvider) {
             return score;
         }
     })
-    .controller("gameController", function($scope, $http, $location, $window, gameService){
+    .controller("gameController", function($scope, $http, $location, $window, scoreService){
         $scope.lvl = -1;
-        $scope.pokemons;
+        $scope.pokemons = null;
         $http.get('/?controller=pokemon')
             .success(function(response) {
                 $scope.pokemons = response;
@@ -41,14 +41,13 @@ app.config(function($routeProvider) {
             if (typeof ($scope.username) == "undefined" || $scope.username == "")
                 $window.alert("Please enter your name!");
             else
-                $http.post('/?controller=user', {name: $scope.username, score: gameService.getScore()})
+                $http.post('/?controller=user', {name: $scope.username, score: scoreService.getScore()})
                     .success(function() {
-                        //todo rename TOPLIST_PAGE to it's id
-                        $location.path('/page/TOPLIST_PAGE');
+                        $location.path('#/page/2');
                     });
         }
     })
-    .directive("pokomon", function(gameService) {
+    .directive("pokomon", function(scoreService) {
         return {
             templateUrl:"assets/directives/pokomon.html",
             replace: true,
@@ -80,14 +79,17 @@ app.config(function($routeProvider) {
                             .success(function (response) {
                                 $scope.curPokomon = response;
                             });
-                        gameService.setScore(gameService.getScore() + $scope.curPokomon.power * finishTime);
+                        scoreService.setScore(scoreService.getScore() + $scope.curPokomon.power * finishTime);
                     }
-                }
+                };
+
+                $scope.catchPokomon = function() {
+                    lvlup();
+                };
 
                 $scope.finish = function($location) {
-                    //todo rename post score page to it's id
-                    $location.path('/page/POST SCORE PAGE');
-                }
+                    $location.path('#/page/4');
+                };
 
                 $scope.stop=function() {
                     $interval.cancel(tictac);
@@ -108,4 +110,4 @@ app.config(function($routeProvider) {
                     })
             }
         }
-    })
+    });
