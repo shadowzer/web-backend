@@ -1,0 +1,26 @@
+<menu></menu>
+<div ng-controller="userController">
+    <table class="table" ng-init="order='score'">
+        <tr>
+            <td class="table__header"
+                ng-class="{'table__header-active':order=='name'}"
+                ng-click="order='name';reverse=!reverse">
+                name
+                <span ng-show="reverse && order=='name'">&uarr;</span>
+                <span ng-show="!reverse && order=='name'">&darr;</span>
+            </td>
+
+            <td class="table__header"
+                ng-class="{'table__header-active':order=='score'}"
+                ng-click="order='score';reverse=!reverse">
+                score
+                <span ng-show="reverse && order=='score'">&uarr;</span>
+                <span ng-show="!reverse && order=='score'">&darr;</span>
+            </td>
+        </tr>
+        <tr ng-repeat="item in list | orderBy:order:reverse">
+            <td>{{item.name}}</td>
+            <td>{{item.score}}</td>
+        </tr>
+    </table>
+</div>

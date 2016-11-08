@@ -1,0 +1,8 @@
+<div ng-app="app" ng-controller="pokomon.controller">
+    <h1> Your game is finished and you got {{scoreService.getScore()}} points! If you want to save your score please enter your nickname below. </h1>
+    Name:
+    <input type="text" ng-model="userName" />
+    <br />
+    <br />
+    <input type="button" value="Отправить результат" ng-click="postScore()" />
+</div>
