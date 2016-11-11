@@ -19,8 +19,8 @@
 <div class ="gameName">
     Chinpokomon the game
 </div>
-
-    <ng-view></ng-view>
+<menu></menu>
+<ng-view></ng-view>
 
 </body>
 </html>
