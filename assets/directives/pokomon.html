@@ -1,3 +1,7 @@
-<div class="gameField">
-    <img src= {{curPokomon.img}} class="pokomon" ng-click="catchPokomon()" style="left:{{50+ballPos.X}}%;top:{{20+ballPos.Y}}%">
+<div pokomon>
+    <div class="gameField">
+        <div class="pokomon" style="left:{{50+ballPos.X}}%;top:{{20+ballPos.Y}}%">
+            <img src={{curPokomon.img}} ng-click="catchPokomon()" >
+        </div>
+    </div>
 </div>

@@ -1,4 +1,6 @@
-<div class="links">
-    <span class="space"></span>
-    <a ng-repeat = "item in menu" class = "menuItem" ng-class = "{'menuItem_active':current==item.id}" ng-href = "#/page/{{item.id}}"> {{item.title}} </a>;
+<div menu>
+    <div class="links">
+        <span class="space"></span>
+        <a ng-repeat = "item in menu" class = "menuItem" ng-class = "{'menuItem_active':current==item.id}" ng-href = "#/page/{{item.id}}"> {{item.title}} </a>
+    </div>
 </div>
