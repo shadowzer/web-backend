@@ -1,6 +1,6 @@
 "use strict";
 
-var app = angular.module("pokomon", ["ngRoute", "ngResource"]);
+var app = angular.module("game", ["ngRoute", "ngResource"]);
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -19,7 +19,8 @@ app.config(function($routeProvider) {
         $http.get('?controller=user')
             .success(function(response){
                 $scope.users = response;
-            })
+            }
+        )
     })
     .factory('scoreService', function() {
         var score = 0;
@@ -29,66 +30,92 @@ app.config(function($routeProvider) {
         function getScore() {
             return score;
         }
+        return {
+            setScore: setScore,
+            getScore: getScore
+        }
     })
     .controller("gameController", function($scope, $http, $location, $window, scoreService){
         $scope.lvl = -1;
         $scope.pokemons = null;
+        $scope.scoreService = scoreService;
+        $scope.showButtonMove = true;
         $http.get('/?controller=pokemon')
             .success(function(response) {
                 $scope.pokemons = response;
             });
-        $scope.postScore = function() {
+        $scope.postScore = function() {  //todo $HTTP.POST IS NOT WORKING
             if (typeof ($scope.username) == "undefined" || $scope.username == "")
                 $window.alert("Please enter your name!");
-            else
-                $http.post('/?controller=user', {name: $scope.username, score: scoreService.getScore()})
-                    .success(function() {
-                        $location.path('#/page/2');
-                    });
+            else {
+                $http.post('/?controller=user', {
+                        "name": $scope.username,
+                        "score": $scope.scoreService.getScore()
+                })
+                    .success(function () {
+                        $http.get('?controller=user')
+                            .success(function (response) {
+                                $scope.users = response;
+                            }
+                        )
+                        $location.path('/page/2');
+                    }
+                );
+            }
         }
     })
-    .directive("pokomon", function(scoreService) {
+    .directive("pokomon", function() {
         return {
             templateUrl:"assets/directives/pokomon.html",
             replace: true,
             restrict: 'E',
-            controller: function($scope, $interval) {
+            controller: function($scope, $interval, $location, $http, scoreService) {
                 $scope.ballPos={'X':0,'Y':0};
-                var tictac, tic = 0, startTime;
+                $scope.curPokomon = null;
+                var tictac, tic = 0;
+                $scope.startTime = 0;
                 // score ~= (pokemon.power * (5сек - врем€ лика))
-                $scope.start=function(){
-                    startTime = Date.now();
-                    tictac=$interval(function(){
-                        var finishTime = parseInt(5 - (Date.now() - startTime)/1000);
+                $scope.start=function() {
+                    $scope.scoreService.setScore(0);
+                    $scope.showButtonMove = false;
+                    $scope.startTime = Date.now();
+                    tictac=$interval(function(){ //todo POKOMON IS NOT MOVING
+                        var finishTime = parseInt(5 - (Date.now() - $scope.startTime)/1000);
                         if (finishTime <= 0) {
-                            finish();
+                            $scope.finish();
                         }
-                        lvlup(finishTime);
+                        $scope.lvlup();
                         tic++;
                         $scope.ballPos.X=50*Math.sin(tic/50);
                         $scope.ballPos.Y=20*Math.cos(tic/20);
-                    },50);
+                    },300);
                 };
 
-                $scope.lvlup = function(finishTime) {
-                    lvl++;
-                    if ($scope.lvl >= pokemons.length) {
-                        finish();
+                $scope.lvlup = function() {
+                    $scope.lvl++;
+                    if ($scope.lvl >= $scope.pokemons.length) {
+                        $scope.finish();
                     } else {
-                        $http.get('/?controller=pokemon&id=' + lvl.toString())
-                            .success(function (response) {
-                                $scope.curPokomon = response;
-                            });
-                        scoreService.setScore(scoreService.getScore() + $scope.curPokomon.power * finishTime);
+                        $scope.curPokomon = $scope.pokemons[$scope.lvl];
                     }
+                    $scope.stop();
+                    $scope.startTime = Date.now();
                 };
 
                 $scope.catchPokomon = function() {
-                    lvlup();
+                    var finishTime = parseInt(5 - (Date.now() - $scope.startTime)/1000);
+                    if (finishTime <= 0) {
+                        $scope.finish();
+                    }
+                    var newScore = parseInt($scope.curPokomon.power) * parseInt(finishTime);
+                    if (newScore >= 0)
+                        $scope.scoreService.setScore(parseInt($scope.scoreService.getScore()) + newScore);
+                    $scope.lvlup();
                 };
 
-                $scope.finish = function($location) {
-                    $location.path('#/page/4');
+                $scope.finish = function() {
+                    $scope.showButtonMove = true;
+                    $location.path('/page/4');
                 };
 
                 $scope.stop=function() {
@@ -107,7 +134,8 @@ app.config(function($routeProvider) {
                 $http.get('/?controller=menu')
                     .success(function(response){
                         $scope.menu = response;
-                    })
+                    }
+                )
             }
         }
     });
