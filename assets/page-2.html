@@ -1,11 +1,21 @@
+<style>
+    body {
+        background-image: url(img/toplist.jpg);
+    }
+</style>
+<span class="space"></span>
 <menu></menu>
+<span class="space"></span>
+<div class="text-toplist">
+    TopList of our players
+</div>
 <div ng-controller="userController">
     <table class="table" ng-init="order='score'">
         <tr>
             <td class="table__header"
                 ng-class="{'table__header-active':order=='name'}"
                 ng-click="order='name';reverse=!reverse">
-                name
+                <h2>name</h2>
                 <span ng-show="reverse && order=='name'">&uarr;</span>
                 <span ng-show="!reverse && order=='name'">&darr;</span>
             </td>
@@ -18,7 +28,7 @@
                 <span ng-show="!reverse && order=='score'">&darr;</span>
             </td>
         </tr>
-        <tr ng-repeat="item in list | orderBy:order:reverse">
+        <tr ng-repeat="item in users | orderBy:order:reverse">
             <td>{{item.name}}</td>
             <td>{{item.score}}</td>
         </tr>
