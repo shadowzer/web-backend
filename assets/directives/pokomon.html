@@ -1,7 +1,7 @@
 <div pokomon>
     <div class="gameField">
-        <div class="pokomon" style="left:{{50+ballPos.X}}%;top:{{20+ballPos.Y}}%">
-            <img src={{curPokomon.img}} ng-click="catchPokomon()" >
+        <div class="pokomon" ng-if="gameGone" style="left:{{50+ballPos.X}}%;top:{{20+ballPos.Y}}%">
+            <img src={{curPokomon.img}} alt="img not found" ng-click="catchPokomon()" >
         </div>
     </div>
 </div>

@@ -17,7 +17,7 @@ class Model{
 		// считаем файл
 		$data=file_get_contents($this->dataFileName);
 		// декодируем 
-		$data=json_decode($data);
+		$data=json_decode($data, true);
 
 		// если id не передан - то возвращаем все записи, иначе только нужную
 		if($id===false){
@@ -35,7 +35,7 @@ class Model{
 		// считываем нашу "базу данных"
 		$data=file_get_contents($this->dataFileName);
 		// декодируем
-		$data=json_decode($data);
+		$data=json_decode($data, true);
 		// добавляем элемент
 		array_push($data, $item);
 		// сохраняем файл, и возвращаем результат сохранения (успех или провал)
@@ -49,7 +49,7 @@ class Model{
 		// считываем нашу "базу данных"
 		$data=file_get_contents($this->dataFileName);
 		// декодируем
-		$data=json_decode($data);
+		$data=json_decode($data, true);
         // изменяем элемент
 		if(array_key_exists($dataToEdit['id'], $data)) {
             $data[$dataToEdit['id']] = array('title' => $dataToEdit['title']);
@@ -63,7 +63,7 @@ class Model{
         // считываем нашу "базу данных"
         $data=file_get_contents($this->dataFileName);
         // декодируем
-        $data=json_decode($data);
+        $data=json_decode($data, true);
         // изменяем элемент
         if(array_key_exists($id, $data)) {
             unset($data[$id]);

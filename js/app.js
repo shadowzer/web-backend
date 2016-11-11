@@ -4,6 +4,12 @@ var app = angular.module("game", ["ngRoute", "ngResource"]);
 
 app.config(function($routeProvider) {
     $routeProvider
+        .when("/toplist", {
+            templateUrl : function() {
+                return "assets/page-2.html";
+            },
+            controller: "topListController"
+        })
         .when("/page/:id", {
             templateUrl : function(page){
                 return "assets/page-"+page.id+".html"
@@ -36,7 +42,7 @@ app.config(function($routeProvider) {
         }
     })
     .controller("gameController", function($scope, $http, $location, $window, scoreService){
-        $scope.lvl = -1;
+        $scope.lvl = 0;
         $scope.pokemons = null;
         $scope.scoreService = scoreService;
         $scope.showButtonMove = true;
@@ -44,7 +50,12 @@ app.config(function($routeProvider) {
             .success(function(response) {
                 $scope.pokemons = response;
             });
-        $scope.postScore = function() {  //todo $HTTP.POST IS NOT WORKING
+
+        $scope.start = function() {
+            $scope.$emit('startMoving');
+        };
+
+        $scope.postScore = function() {
             if (typeof ($scope.username) == "undefined" || $scope.username == "")
                 $window.alert("Please enter your name!");
             else {
@@ -53,12 +64,8 @@ app.config(function($routeProvider) {
                         "score": $scope.scoreService.getScore()
                 })
                     .success(function () {
-                        $http.get('?controller=user')
-                            .success(function (response) {
-                                $scope.users = response;
-                            }
-                        )
-                        $location.path('/page/2');
+                        $scope.scoreService.setScore(0);
+                        $location.path('/toplist');
                     }
                 );
             }
@@ -69,14 +76,19 @@ app.config(function($routeProvider) {
             templateUrl:"assets/directives/pokomon.html",
             replace: true,
             restrict: 'E',
-            controller: function($scope, $interval, $location, $http, scoreService) {
+            controller: function($scope, $interval, $location, $http, scoreService, $window) {
+                $scope.gameGone = false;
                 $scope.ballPos={'X':0,'Y':0};
-                $scope.curPokomon = null;
                 var tictac, tic = 0;
                 $scope.startTime = 0;
+                $http.get('/?controller=pokemon&id=0')
+                    .success(function(response) {
+                        $scope.curPokomon = response;
+                    }
+                )
                 // score ~= (pokemon.power * (5сек - врем€ лика))
-                $scope.start=function() {
-                    $scope.scoreService.setScore(0);
+                $scope.$on('startMoving', function(event) {
+                    $scope.gameGone = true;
                     $scope.showButtonMove = false;
                     $scope.startTime = Date.now();
                     tictac=$interval(function(){ //todo POKOMON IS NOT MOVING
@@ -84,12 +96,11 @@ app.config(function($routeProvider) {
                         if (finishTime <= 0) {
                             $scope.finish();
                         }
-                        $scope.lvlup();
                         tic++;
                         $scope.ballPos.X=50*Math.sin(tic/50);
                         $scope.ballPos.Y=20*Math.cos(tic/20);
-                    },300);
-                };
+                    }, 50);
+                });
 
                 $scope.lvlup = function() {
                     $scope.lvl++;
@@ -100,6 +111,7 @@ app.config(function($routeProvider) {
                     }
                     $scope.stop();
                     $scope.startTime = Date.now();
+                    $scope.$emit('startMoving');
                 };
 
                 $scope.catchPokomon = function() {
@@ -114,6 +126,7 @@ app.config(function($routeProvider) {
                 };
 
                 $scope.finish = function() {
+                    $scope.gameGone = false;
                     $scope.showButtonMove = true;
                     $location.path('/page/4');
                 };

@@ -104,7 +104,7 @@ td {
 	height: 15em
 }
 .pokomon{
-	position: relative;
+	position: absolute;
 	width: 3em;
 	height: 3em;
 	border-radius: 2em;
