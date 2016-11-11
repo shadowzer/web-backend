@@ -3,16 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>Chinpokomon the game web-app</title>
-    <script src="../../localhost/js/lib/angular.js"></script>
-    <script src="../../localhost/js/lib/angular-route.js"></script>
-    <script src="../../localhost/js/lib/angular-resource.js"></script>
-    <script src="../js/app.js"></script>
-    <link href="../css/style.css" rel="stylesheet">
+    <script src="js/lib/angular.js"></script>
+    <script src="js/lib/angular-route.js"></script>
+    <script src="js/lib/angular-resource.js"></script>
+    <script src="js/app.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #434343;
+        }
+    </style>
 </head>
 
 <body>
 <div class ="gameName">
-    <a href="index.php"> Chinpokomon the game </a>
+    Chinpokomon the game
 </div>
 
     <ng-view></ng-view>
