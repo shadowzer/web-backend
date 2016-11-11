@@ -8,7 +8,7 @@ app.config(function($routeProvider) {
             templateUrl : function() {
                 return "assets/page-2.html";
             },
-            controller: "topListController"
+            controller: "userController"
         })
         .when("/page/:id", {
             templateUrl : function(page){
