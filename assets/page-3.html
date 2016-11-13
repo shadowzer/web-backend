@@ -1,5 +1,5 @@
-<div ng-controller="gameController">
-    <h2>Level: {{lvl}}  Points: {{scoreService.getScore()}} PokPower: {{curPokomon.power}}</h2>
+<div>
+    <h2>Level: {{lvl}}  Points: {{scoreService.getScore()}} PokomonPower: {{curPokomon.power}}</h2>
 
     <a class="button-move" ng-if="showButtonMove" ng-click="start()">
         Let the level begin

@@ -9,7 +9,7 @@
     TopList of our players
 </div>
 <div ng-controller="userController">
-    <table class="table" ng-init="order='score'">
+    <table class="table" ng-init="order='score';reverse=!reverse">
         <tr>
             <td class="table__header"
                 ng-class="{'table__header-active':order=='name'}"
